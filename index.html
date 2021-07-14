@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row my-5">
+            <div class='col-12'>
+                <h2>Eulerian Assembly Graph</h2>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+                <p>Paste some DNA sequences below (with each sequencing"read" on a separate line), and watch as the resulting <b>Eulerian assembly graph</b> is created.</p>
+
+                <p>You can drag the graph nodes to rearrange the layout.</p>
+
+                <p>Change the <b>k-mer size</b> and note how the shape of the graph changes.</p>
+                    
+                <p><i>What k-mer sizes result in a more fragmented graph?</i></p>
+                <p><i>What k-mer sizes result in more loops?</i></p>
+
+                <p>What is the relationship between the k-mer size selected and the <b>node labels</b>? What do the <b>edges</b> in this graph represent?</p> 
+
+                <b><label for="kmer-range" class="form-label">k-mer size: <span id="kmerSliderValue">3</span></b></label>
+                <input type="range" class="form-range" min="2" max="10" step="1" id="kmerRange">
+                <h6>Sequencing reads:</h6>
+                <textarea class="form-control" id="values" rows="5">AAAGGCGTTGAGGTTT&#10;GTTTGGTCTGTC&#10;GTCATGTCGAA</textarea>
+          </div>
+          <div class="col-9">
+            <div id="chart"></div>
+          </div>
+        </div>
+        <div class="row my-5">
+            <div class='col-3'>
+
+            </div>
+            <div class='col-9'>
+            </div>
+        </div>
+      </div>
+
+      <div class="fixed-bottom text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        Created by <a href="https://github.com/andrewguy">Andrew Guy</a>. Uses <a href="https://d3js.org/">D3.js</a>. Inspired by <a href="https://observablehq.com/@d3/mobile-patent-suits">this visualisation</a>.
+      </div>
+    <script src="/assemblyPlayground.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>

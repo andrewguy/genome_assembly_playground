@@ -1,0 +1,7 @@
+circle {
+    cursor: grab;
+  }
+
+circle:active {
+    cursor: grabbing;
+}
