@@ -23,16 +23,20 @@
                 <p>You can drag the graph nodes to rearrange the layout.</p>
 
                 <p>Change the <b>k-mer size</b> and note how the shape of the graph changes.</p>
-                    
-                <p><i>What k-mer sizes result in a more fragmented graph?</i></p>
-                <p><i>What k-mer sizes result in more loops?</i></p>
-
-                <p>What is the relationship between the k-mer size selected and the <b>node labels</b>? What do the <b>edges</b> in this graph represent?</p> 
 
                 <b><label for="kmer-range" class="form-label">k-mer size: <span id="kmerSliderValue">3</span></b></label>
                 <input type="range" class="form-range" min="2" max="10" step="1" id="kmerRange">
                 <h6>Sequencing reads:</h6>
                 <textarea class="form-control" id="values" rows="5">AAAGGCGTTGAGGTTT&#10;GTTTGGTCTGTC&#10;GTCATGTCGAA</textarea>
+                <br><br><br>
+                <h6>Some things to consider:</h6>
+                <br>
+
+                <p><i>What k-mer sizes result in a more <b>fragmented</b> graph?</i></p>
+                <p><i>What k-mer sizes result in more <b>loops</b> in the graph?</i></p>
+
+                <p><i>What is the relationship between the <b>k-mer size</b> selected and the <b>node labels</b>?</i></p>
+                <p><i>What do the <b>edges</b> in this graph represent?</i></p> 
           </div>
           <div class="col-9">
             <div id="chart"></div>
