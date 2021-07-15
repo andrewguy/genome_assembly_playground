@@ -51,7 +51,42 @@ function reads2graph(textInput, kmerSize){
 }
 
 
-function chart2(data) {
+function reads2hamgraph(textInput, kmerSize){
+  let dnaStrings = textInput
+
+  let kmerLength = kmerSize
+
+  let nodes = new Set()
+
+  let edges = new Array()
+  dnaStrings.forEach((dnaString) => 
+      {for (var i = 0, charsLength = dnaString.length; i < charsLength - kmerLength + 1; i += 1) {
+          
+          let kmer = dnaString.substring(i, i + kmerLength)
+          nodes.add(kmer)
+      }
+  }
+  )
+  nodes.forEach((kmer) =>
+      {
+        let suffix = kmer.substring(1, kmerLength)
+        nodes.forEach((kmer2) =>
+          {
+            let prefix = kmer2.substring(0, kmerLength-1)
+            if (suffix == prefix) {
+              edges.push({'source': kmer, 'target': kmer2, 'type': "Hamiltonian"})
+            }
+          }
+        )
+      }
+
+  )
+  let nodeArray = Array.from(nodes).map(x => ({'id': x}))
+  return {'links': edges, 'nodes': nodeArray}
+}
+
+
+function chart2(data, element_id) {
     const links = data.links.map(d => Object.create(d));
     const nodes = data.nodes.map(d => Object.create(d));
   
@@ -61,13 +96,13 @@ function chart2(data) {
         .force("x", d3.forceX())
         .force("y", d3.forceY());
   
-    const svg = d3.select("#chart").append("svg")
+    const svg = d3.select(element_id).append("svg")
         .attr("viewBox", [-width / 2, -height / 2, width, height])
         .style("font", "12px sans-serif");
   
     // Per-type markers, as they don't inherit styles.
     svg.append("defs").selectAll("marker")
-      .data(['Eulerian'])
+      .data(['Eulerian', 'Hamiltonian'])
       .join("marker")
         .attr("id", d => `arrow-${d}`)
         .attr("viewBox", "0 -5 10 10")
@@ -134,13 +169,18 @@ const width = 800;
 
 var kmerSizes = [2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+//
+// Eulerian graph
+//
+//
+
 const source = document.getElementById('values');
 
 const inputHandler = function(e) {
     d3.select("#chart svg").remove()
        var dataset = e.target.value.split("\n");
        let graphData = reads2graph(dataset, parseInt(document.getElementById("kmerRange").value))
-       chart2(graphData)
+       chart2(graphData, "#chart")
   }
   
 source.addEventListener('input', inputHandler)
@@ -149,14 +189,13 @@ var dataset = document.getElementById("values").value.split("\n")
 
 let graphData = reads2graph(dataset, parseInt(document.getElementById("kmerRange").value))
 
-chart2(graphData)
+chart2(graphData, "#chart")
 
 
 var slider = document.getElementById("kmerRange");
 var output = document.getElementById("kmerSliderValue");
-output.innerHTML = slider.value; // Display the default slider value
+output.innerHTML = slider.value; 
 
-// Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
   output.innerHTML = this.value;
 }
@@ -167,5 +206,43 @@ d3.select("#kmerRange")
     d3.select("#chart svg").remove()
     var dataset = document.getElementById("values").value.split("\n");
     let graphData = reads2graph(dataset, parseInt(document.getElementById("kmerRange").value))
-    chart2(graphData)
+    chart2(graphData, "#chart")
+  });
+
+//
+// Hamiltonian graph
+//
+//
+const sourceHam = document.getElementById('valuesHam');
+
+const inputHandlerHam = function(e) {
+    d3.select("#chartHam svg").remove()
+       var dataset = e.target.value.split("\n");
+       let graphData = reads2hamgraph(dataset, parseInt(document.getElementById("kmerRangeHam").value))
+       chart2(graphData, "#chartHam")
+  }
+  
+sourceHam.addEventListener('input', inputHandlerHam)
+      
+var datasetHam = document.getElementById("valuesHam").value.split("\n")
+
+let graphDataHam = reads2hamgraph(datasetHam, parseInt(document.getElementById("kmerRangeHam").value))
+
+chart2(graphDataHam, "#chartHam")
+
+var sliderHam = document.getElementById("kmerRangeHam");
+var outputHam = document.getElementById("kmerSliderValueHam");
+outputHam.innerHTML = sliderHam.value; 
+
+sliderHam.oninput = function() {
+  outputHam.innerHTML = this.value;
+}
+
+
+d3.select("#kmerRangeHam")
+  .on('change', () => {
+    d3.select("#chartHam svg").remove()
+    var dataset = document.getElementById("valuesHam").value.split("\n");
+    let graphData = reads2hamgraph(dataset, parseInt(document.getElementById("kmerRangeHam").value))
+    chart2(graphData, "#chartHam")
   });
